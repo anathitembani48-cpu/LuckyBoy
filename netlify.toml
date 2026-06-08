@@ -1,0 +1,4 @@
+[build]
+  base = "Lucky Learning"
+  publish = "Lucky Learning"
+  command = ""

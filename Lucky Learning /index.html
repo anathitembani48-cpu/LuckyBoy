@@ -1,0 +1,14 @@
+<script>
+function speak(text) {
+  const msg = new SpeechSynthesisUtterance(text);
+  msg.lang = 'en-US';
+  speechSynthesis.speak(msg);
+}
+
+// Example: Make "Numbers" tab speak when clicked
+document.querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    speak(btn.innerText);
+  });
+});
+</script>

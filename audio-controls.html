@@ -1,0 +1,354 @@
+<!-- Audio Controls HTML Template -->
+
+<!-- Include the audio manager script first -->
+<script src="audio-manager.js"></script>
+
+<!-- Background Music Audio Element -->
+<audio id="bgMusic" preload="auto"></audio>
+
+<!-- Nursery Rhyme Audio Element -->
+<audio id="rhymeAudio" preload="auto"></audio>
+
+<!-- Lyrics Display (automatically created by AudioManager, but can be customized) -->
+<div id="lyricsDisplay" class="lyrics-display"></div>
+
+<!-- Audio Control Panel -->
+<div class="audio-controls-panel">
+  <div class="control-section">
+    <h3>🎵 Background Music</h3>
+    <div class="control-group">
+      <button id="bgPlayBtn" class="audio-btn play-btn" onclick="audioManager.playBackgroundMusic('/audio/background/background-music.mp3', true)">
+        ▶ Play
+      </button>
+      <button id="bgPauseBtn" class="audio-btn pause-btn" onclick="audioManager.pauseBackgroundMusic()">
+        ⏸ Pause
+      </button>
+      <button id="bgStopBtn" class="audio-btn stop-btn" onclick="audioManager.stopBackgroundMusic()">
+        ⏹ Stop
+      </button>
+    </div>
+    
+    <div class="volume-control">
+      <label for="bgVolume">Volume:</label>
+      <input 
+        type="range" 
+        id="bgVolume" 
+        class="volume-slider" 
+        min="0" 
+        max="100" 
+        value="30"
+        oninput="audioManager.setBackgroundMusicVolume(this.value / 100)"
+      >
+      <span id="bgVolumeValue" class="volume-value">30%</span>
+    </div>
+    
+    <div class="mute-control">
+      <button id="bgMuteBtn" class="audio-btn mute-btn" onclick="toggleBgMute()">
+        🔊 Mute
+      </button>
+    </div>
+  </div>
+  
+  <div class="control-section">
+    <h3>🎵 Sound Effects</h3>
+    <div class="control-group">
+      <button class="audio-btn" onclick="audioManager.playSFX('click')">
+        Click Sound
+      </button>
+      <button class="audio-btn" onclick="audioManager.playSFX('success')">
+        Success Sound
+      </button>
+      <button class="audio-btn" onclick="audioManager.playSFX('error')">
+        Error Sound
+      </button>
+    </div>
+    
+    <div class="volume-control">
+      <label for="sfxVolume">Volume:</label>
+      <input 
+        type="range" 
+        id="sfxVolume" 
+        class="volume-slider" 
+        min="0" 
+        max="100" 
+        value="70"
+        oninput="audioManager.setSFXVolume(this.value / 100)"
+      >
+      <span id="sfxVolumeValue" class="volume-value">70%</span>
+    </div>
+    
+    <div class="mute-control">
+      <button id="sfxMuteBtn" class="audio-btn mute-btn" onclick="toggleSFXMute()">
+        🔊 Mute
+      </button>
+    </div>
+  </div>
+  
+  <div class="control-section">
+    <h3>🎶 Nursery Rhymes</h3>
+    <div class="control-group">
+      <button class="audio-btn rhyme-btn" onclick="playRhyme('twinkle')">
+        Twinkle Twinkle
+      </button>
+      <button class="audio-btn rhyme-btn" onclick="playRhyme('mary')">
+        Mary Had a Lamb
+      </button>
+      <button class="audio-btn rhyme-btn" onclick="playRhyme('baa')">
+        Baa Baa Black Sheep
+      </button>
+    </div>
+    
+    <button id="stopRhymeBtn" class="audio-btn stop-btn" onclick="audioManager.stopNurseryRhyme()">
+      ⏹ Stop Rhyme
+    </button>
+  </div>
+</div>
+
+<style>
+  /* Audio Controls Styling */
+  
+  .audio-controls-panel {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .control-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+  }
+  
+  .control-section:last-child {
+    margin-bottom: 0;
+  }
+  
+  .control-section h3 {
+    margin: 0 0 15px 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .control-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+  
+  .audio-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  .play-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .play-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+  }
+  
+  .pause-btn {
+    background-color: #ff9800;
+    color: white;
+  }
+  
+  .pause-btn:hover {
+    background-color: #e68900;
+    transform: scale(1.05);
+  }
+  
+  .stop-btn {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .stop-btn:hover {
+    background-color: #da190b;
+    transform: scale(1.05);
+  }
+  
+  .mute-btn {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .mute-btn:hover {
+    background-color: #0b7dda;
+    transform: scale(1.05);
+  }
+  
+  .mute-btn.muted {
+    background-color: #555;
+  }
+  
+  .rhyme-btn {
+    background-color: #9C27B0;
+    color: white;
+  }
+  
+  .rhyme-btn:hover {
+    background-color: #7b1fa2;
+    transform: scale(1.05);
+  }
+  
+  .volume-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .volume-control label {
+    font-weight: bold;
+    min-width: 70px;
+  }
+  
+  .volume-slider {
+    flex: 1;
+    height: 8px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .volume-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .volume-value {
+    min-width: 40px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .mute-control {
+    display: flex;
+    gap: 10px;
+  }
+  
+  /* Lyrics Display */
+  .lyrics-display {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: #FFD700;
+    padding: 20px 40px;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1000;
+    min-width: 300px;
+    display: none;
+    max-width: 80vw;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 3px solid #FFD700;
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .audio-controls-panel {
+      padding: 15px;
+      margin: 10px;
+    }
+    
+    .control-group {
+      flex-direction: column;
+    }
+    
+    .audio-btn {
+      width: 100%;
+    }
+    
+    .lyrics-display {
+      font-size: 18px;
+      padding: 15px 30px;
+      min-width: 250px;
+      bottom: 10px;
+    }
+  }
+</style>
+
+<script>
+  // Helper functions for toggling mute
+  function toggleBgMute() {
+    const btn = document.getElementById('bgMuteBtn');
+    const isMuted = audioManager.toggleBackgroundMusicMute();
+    btn.classList.toggle('muted', isMuted);
+    btn.textContent = isMuted ? '🔇 Unmute' : '🔊 Mute';
+  }
+  
+  function toggleSFXMute() {
+    const btn = document.getElementById('sfxMuteBtn');
+    const isMuted = audioManager.toggleSFXMute();
+    btn.classList.toggle('muted', isMuted);
+    btn.textContent = isMuted ? '🔇 Unmute' : '🔊 Mute';
+  }
+  
+  // Update volume display
+  document.getElementById('bgVolume').addEventListener('input', function() {
+    document.getElementById('bgVolumeValue').textContent = this.value + '%';
+  });
+  
+  document.getElementById('sfxVolume').addEventListener('input', function() {
+    document.getElementById('sfxVolumeValue').textContent = this.value + '%';
+  });
+  
+  // Initialize SFX elements
+  function initializeSFX() {
+    audioManager.createSFX('click', '/audio/sfx/click.mp3');
+    audioManager.createSFX('success', '/audio/sfx/success.mp3');
+    audioManager.createSFX('error', '/audio/sfx/error.mp3');
+  }
+  
+  // Call this when page loads
+  document.addEventListener('DOMContentLoaded', initializeSFX);
+</script>

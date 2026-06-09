@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KiddosLearn Audio Demo Preview</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    header {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+    
+    header h1 {
+      color: #333;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    
+    header p {
+      color: #666;
+      font-size: 18px;
+    }
+    
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .panel {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+    
+    .panel:hover {
+      transform: translateY(-5px);
+    }
+    
+    .panel h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+    }
+    
+    .panel-description {
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    /* Audio Controls Panel */
+    .audio-controls-demo {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      color: white;
+    }
+    
+    .control-section {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .control-section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .control-section h3 {
+      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    .control-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    
+    .demo-btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .play-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .play-btn:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+    
+    .pause-btn {
+      background-color: #ff9800;
+      color: white;
+    }
+    
+    .pause-btn:hover {
+      background-color: #e68900;
+      transform: scale(1.05);
+    }
+    
+    .stop-btn {
+      background-color: #f44336;
+      color: white;
+    }
+    
+    .stop-btn:hover {
+      background-color: #da190b;
+      transform: scale(1.05);
+    }
+    
+    .mute-btn {
+      background-color: #2196F3;
+      color: white;
+    }
+    
+    .mute-btn:hover {
+      background-color: #0b7dda;
+      transform: scale(1.05);
+    }
+    
+    .rhyme-btn {
+      background-color: #9C27B0;
+      color: white;
+    }
+    
+    .rhyme-btn:hover {
+      background-color: #7b1fa2;
+      transform: scale(1.05);
+    }
+    
+    .volume-demo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    
+    .volume-demo label {
+      font-size: 12px;
+      min-width: 50px;
+    }
+    
+    .volume-slider {
+      flex: 1;
+      height: 6px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.3);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+    }
+    
+    .volume-slider::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .volume-value {
+      font-size: 12px;
+      min-width: 25px;
+    }
+    
+    .lyrics-preview {
+      background: #2d2d2d;
+      color: #FFD700;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 15px;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Features List */
+    .features {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      margin-bottom: 30px;
+    }
+    
+    .features h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .feature-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+    
+    .feature-card h3 {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    
+    .feature-card p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    
+    /* How It Works */
+    .how-it-works {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      margin-bottom: 30px;
+    }
+    
+    .how-it-works h2 {
+      color: #667eea;
+      margin-bottom: 30px;
+      font-size: 1.8em;
+      text-align: center;
+    }
+    
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .workflow-step {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .workflow-step::after {
+      content: '→';
+      position: absolute;
+      right: -25px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 30px;
+      font-weight: bold;
+    }
+    
+    .workflow-step:last-child::after {
+      content: '';
+    }
+    
+    .workflow-number {
+      background: white;
+      color: #667eea;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin: 0 auto 10px;
+    }
+    
+    .workflow-step h4 {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    
+    .workflow-step p {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+    
+    /* Getting Started */
+    .getting-started {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    .getting-started h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+    }
+    
+    .steps-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .step-box {
+      background: #f9f9f9;
+      border-left: 5px solid #667eea;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    
+    .step-box h3 {
+      color: #667eea;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .step-box p {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 40px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 20px;
+      transition: transform 0.3s ease;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-3px);
+    }
+    
+    @media (max-width: 768px) {
+      .demo-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      header h1 {
+        font-size: 1.8em;
+      }
+      
+      .workflow-step::after {
+        content: '↓';
+        right: 50%;
+        transform: translateX(50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎵 KiddosLearn Audio System</h1>
+      <p>Preview of your complete audio implementation with synced nursery rhymes</p>
+    </header>
+    
+    <!-- Live Demo Section -->
+    <div class="demo-grid">
+      <!-- Audio Controls Demo -->
+      <div class="panel">
+        <h2>🎛️ Control Panel</h2>
+        <p class="panel-description">What your users will see - beautiful, intuitive audio controls with separate volume management</p>
+        
+        <div class="audio-controls-demo">
+          <!-- Background Music Section -->
+          <div class="control-section">
+            <h3>🎵 Background Music</h3>
+            <div class="control-group">
+              <button class="demo-btn play-btn">▶ Play</button>
+              <button class="demo-btn pause-btn">⏸ Pause</button>
+              <button class="demo-btn stop-btn">⏹ Stop</button>
+            </div>
+            <div class="volume-demo">
+              <label>Volume:</label>
+              <input type="range" class="volume-slider" min="0" max="100" value="30" oninput="updateVolume(this, 'bg')">
+              <span class="volume-value" id="bgVol">30%</span>
+            </div>
+            <div class="control-group" style="margin-top: 10px;">
+              <button class="demo-btn mute-btn">🔊 Mute</button>
+            </div>
+          </div>
+          
+          <!-- Sound Effects Section -->
+          <div class="control-section">
+            <h3>🔊 Sound Effects</h3>
+            <div class="control-group">
+              <button class="demo-btn rhyme-btn">Click Sound</button>
+              <button class="demo-btn rhyme-btn">Success Sound</button>
+              <button class="demo-btn rhyme-btn">Error Sound</button>
+            </div>
+            <div class="volume-demo">
+              <label>Volume:</label>
+              <input type="range" class="volume-slider" min="0" max="100" value="70" oninput="updateVolume(this, 'sfx')">
+              <span class="volume-value" id="sfxVol">70%</span>
+            </div>
+            <div class="control-group" style="margin-top: 10px;">
+              <button class="demo-btn mute-btn">🔊 Mute</button>
+            </div>
+          </div>
+          
+          <!-- Nursery Rhymes Section -->
+          <div class="control-section">
+            <h3>🎶 Nursery Rhymes</h3>
+            <div class="control-group">
+              <button class="demo-btn rhyme-btn" onclick="showLyric('Twinkle, twinkle, little star')">Twinkle Twinkle</button>
+              <button class="demo-btn rhyme-btn" onclick="showLyric('Mary had a little lamb')">Mary Had a Lamb</button>
+              <button class="demo-btn rhyme-btn" onclick="showLyric('Baa, baa, black sheep')">Baa Baa Black</button>
+            </div>
+            <button class="demo-btn stop-btn" style="width: 100%;">⏹ Stop Rhyme</button>
+          </div>
+        </div>
+        
+        <div class="lyrics-preview" id="lyricsDisplay" style="display: none;">
+          🎵 Lyrics appear here synced with audio 🎵
+        </div>
+      </div>
+      
+      <!-- Features Section -->
+      <div class="panel">
+        <h2>✨ Key Features</h2>
+        <p class="panel-description">Everything you need for an amazing audio experience</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+            <h4 style="color: #667eea; margin-bottom: 5px;">🎵 Separate Volume Controls</h4>
+            <p style="color: #666; font-size: 14px;">Background music and sound effects have independent volume sliders</p>
+          </div>
+          
+          <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+            <h4 style="color: #667eea; margin-bottom: 5px;">🎤 Animated Lyrics</h4>
+            <p style="color: #666; font-size: 14px;">Lyrics automatically display and sync with nursery rhyme audio</p>
+          </div>
+          
+          <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+            <h4 style="color: #667eea; margin-bottom: 5px;">🔇 Independent Mute</h4>
+            <p style="color: #666; font-size: 14px;">Mute background or effects without affecting other audio</p>
+          </div>
+          
+          <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+            <h4 style="color: #667eea; margin-bottom: 5px;">📱 Responsive Design</h4>
+            <p style="color: #666; font-size: 14px;">Works perfectly on desktop, tablet, and mobile devices</p>
+          </div>
+          
+          <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+            <h4 style="color: #667eea; margin-bottom: 5px;">⚙️ Easy Customization</h4>
+            <p style="color: #666; font-size: 14px;">Add new rhymes in minutes with the timing calibrator tool</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- How It Works -->
+    <div class="how-it-works">
+      <h2>🎯 How It Works</h2>
+      <div class="workflow">
+        <div class="workflow-step">
+          <div class="workflow-number">1</div>
+          <h4>Download Audio</h4>
+          <p>Get MP3 files from free sites</p>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-number">2</div>
+          <h4>Sync Lyrics</h4>
+          <p>Use timing calibrator tool</p>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-number">3</div>
+          <h4>Add to Database</h4>
+          <p>Paste code into your app</p>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-number">4</div>
+          <h4>Test & Deploy</h4>
+          <p>See it in action! 🎉</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Features Grid -->
+    <div class="features">
+      <h2>🌟 Complete Audio System</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎵</div>
+          <h3>Background Music</h3>
+          <p>Looping background tracks with play/pause/stop controls</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🔊</div>
+          <h3>Sound Effects</h3>
+          <p>Click, success, and error sounds for interactions</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🎤</div>
+          <h3>Nursery Rhymes</h3>
+          <p>Audio playback with perfectly synced lyrics</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🎚️</div>
+          <h3>Volume Control</h3>
+          <p>Independent sliders for each audio type</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🔇</div>
+          <h3>Mute Buttons</h3>
+          <p>Separate mute for background and effects</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">⚙️</div>
+          <h3>Easy Setup</h3>
+          <p>Complete tools and guides included</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Getting Started -->
+    <div class="getting-started">
+      <h2>🚀 Getting Started</h2>
+      <div class="steps-list">
+        <div class="step-box">
+          <h3>📁 Step 1: Setup</h3>
+          <p>Create audio folder structure in your project</p>
+        </div>
+        
+        <div class="step-box">
+          <h3>🎤 Step 2: Download</h3>
+          <p>Download nursery rhyme audio from free sources</p>
+        </div>
+        
+        <div class="step-box">
+          <h3>⏱️ Step 3: Calibrate</h3>
+          <p>Use timing tool to sync lyrics with audio</p>
+        </div>
+        
+        <div class="step-box">
+          <h3>💾 Step 4: Add Code</h3>
+          <p>Paste generated code into your database file</p>
+        </div>
+        
+        <div class="step-box">
+          <h3>🧪 Step 5: Test</h3>
+          <p>Open audio controls and test your rhyme</p>
+        </div>
+        
+        <div class="step-box">
+          <h3>📱 Step 6: Deploy</h3>
+          <p>Push to Netlify and go live!</p>
+        </div>
+      </div>
+      
+      <p style="color: #666; margin-top: 20px; line-height: 1.8;">
+        Everything is ready to use! Start with the <strong>QUICK-START.md</strong> guide for a 5-minute setup. 
+        You have complete documentation, interactive tools, and step-by-step guides to help you add as many nursery rhymes as you want.
+      </p>
+      
+      <a href="#" class="cta-button">📖 Open QUICK-START Guide</a>
+    </div>
+  </div>
+  
+  <script>
+    function updateVolume(slider, type) {
+      const displayId = type === 'bg' ? 'bgVol' : 'sfxVol';
+      document.getElementById(displayId).textContent = slider.value + '%';
+    }
+    
+    function showLyric(text) {
+      const display = document.getElementById('lyricsDisplay');
+      display.textContent = text;
+      display.style.display = 'block';
+      
+      // Auto-hide after 3 seconds
+      setTimeout(() => {
+        display.style.display = 'none';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

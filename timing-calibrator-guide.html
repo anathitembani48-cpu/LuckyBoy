@@ -1,0 +1,837 @@
+<!-- Timing Calibrator Video Guide & Tutorial -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timing Calibrator - Video Tutorial</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    header {
+      background: white;
+      border-radius: 15px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+    
+    header h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 2.5em;
+    }
+    
+    header p {
+      color: #666;
+      font-size: 18px;
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .tab-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      background: white;
+      color: #667eea;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .tab-btn.active {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .tab-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .tab-content {
+      display: none;
+      background: white;
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .video-placeholder {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      margin-bottom: 30px;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .step {
+      margin-bottom: 40px;
+      padding: 25px;
+      background: #f9f9f9;
+      border-left: 5px solid #667eea;
+      border-radius: 8px;
+    }
+    
+    .step h3 {
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .step-number {
+      background: #667eea;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    .step p, .step li {
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    
+    .step ul {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+    
+    .screenshot {
+      background: #f0f0f0;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      font-family: monospace;
+      overflow-x: auto;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    
+    .example-box {
+      background: #e8f5e9;
+      border-left: 5px solid #4CAF50;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+    
+    .example-box h4 {
+      color: #2e7d32;
+      margin-bottom: 10px;
+    }
+    
+    .warning-box {
+      background: #fff3e0;
+      border-left: 5px solid #ff9800;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+    
+    .warning-box h4 {
+      color: #e65100;
+      margin-bottom: 10px;
+    }
+    
+    .tip-box {
+      background: #e3f2fd;
+      border-left: 5px solid #2196F3;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+    
+    .tip-box h4 {
+      color: #1565c0;
+      margin-bottom: 10px;
+    }
+    
+    .download-guide {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    
+    .guide-card {
+      background: white;
+      border: 2px solid #667eea;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .guide-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+    
+    .guide-card h4 {
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+    
+    .guide-card p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    
+    .guide-card a {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+      font-weight: bold;
+    }
+    
+    .guide-card a:hover {
+      background: #764ba2;
+    }
+    
+    .checklist {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      padding: 12px;
+      background: white;
+      border-radius: 6px;
+    }
+    
+    .checklist-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .checkbox {
+      width: 24px;
+      height: 24px;
+      border: 2px solid #667eea;
+      border-radius: 4px;
+      flex-shrink: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    
+    .checkbox:hover {
+      background: #667eea;
+      color: white;
+    }
+    
+    .checkbox.checked {
+      background: #667eea;
+      color: white;
+    }
+    
+    code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #d63384;
+    }
+    
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .comparison-table th {
+      background: #667eea;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .comparison-table tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎵 Timing Calibrator Complete Guide</h1>
+      <p>Learn how to synchronize your nursery rhyme lyrics with audio</p>
+    </header>
+    
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab(event, 'video')">📹 Video Tutorial</button>
+      <button class="tab-btn" onclick="showTab(event, 'steps')">📋 Step-by-Step</button>
+      <button class="tab-btn" onclick="showTab(event, 'download')">⬇️ Get Audio Files</button>
+      <button class="tab-btn" onclick="showTab(event, 'example')">📖 Live Example</button>
+      <button class="tab-btn" onclick="showTab(event, 'tips')">💡 Tips & Tricks</button>
+    </div>
+    
+    <!-- Video Tutorial Tab -->
+    <div id="video" class="tab-content active">
+      <div class="video-placeholder">
+        <div style="text-align: center;">
+          <div style="font-size: 60px; margin-bottom: 20px;">🎥</div>
+          <p>Video Tutorial Coming Soon!</p>
+          <p style="font-size: 16px; margin-top: 10px;">For now, follow the Step-by-Step guide below</p>
+        </div>
+      </div>
+      
+      <div class="warning-box">
+        <h4>⚠️ Recommended Viewing</h4>
+        <p>Click the <strong>"📋 Step-by-Step"</strong> tab to follow along with detailed instructions and screenshots</p>
+      </div>
+    </div>
+    
+    <!-- Step-by-Step Tab -->
+    <div id="steps" class="tab-content">
+      <h2 style="color: #333; margin-bottom: 30px;">Step-by-Step Instructions</h2>
+      
+      <div class="step">
+        <h3><span class="step-number">1</span> Download Your Audio File</h3>
+        <p>First, you need a nursery rhyme audio file (MP3 format). See the <strong>"⬇️ Get Audio Files"</strong> tab for download links.</p>
+        <p style="margin-top: 15px;"><strong>File should be:</strong></p>
+        <ul>
+          <li>✅ MP3 format (.mp3)</li>
+          <li>✅ Clear audio quality</li>
+          <li>✅ Saved on your computer</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3><span class="step-number">2</span> Open the Timing Calibrator</h3>
+        <p>Open <code>timing-calibrator.html</code> in your web browser:</p>
+        <ul>
+          <li>Right-click the file → "Open with" → Choose your browser</li>
+          <li>OR drag the file into your browser window</li>
+          <li>OR double-click to open with default browser</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3><span class="step-number">3</span> Upload Your Audio</h3>
+        <p>In the calibrator:</p>
+        <ul>
+          <li>Click <strong>"📁 Upload Audio File"</strong></li>
+          <li>Select your nursery rhyme MP3 file</li>
+          <li>Wait for it to load (you'll see the audio player)</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3><span class="step-number">4</span> Enter the Rhyme Name</h3>
+        <p>In the <strong>"🎶 Rhyme Name"</strong> field, type:</p>
+        <ul>
+          <li>Example: "Twinkle Twinkle Little Star"</li>
+          <li>This will be the display name in your app</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3><span class="step-number">5</span> Start Capturing Timings</h3>
+        <p>This is the main part:</p>
+        <ul>
+          <li>Press <strong>PLAY</strong> on the audio player</li>
+          <li>Listen to the audio</li>
+          <li>When the <strong>first lyric starts</strong>, type it in the text box</li>
+          <li>Click <strong>"⏱ Capture Timing"</strong> (or press ENTER)</li>
+        </ul>
+        
+        <div class="example-box">
+          <h4>Example:</h4>
+          <p><strong>Audio plays:</strong> "Twinkle, twinkle, little star..."</p>
+          <p><strong>You type:</strong> Twinkle, twinkle, little star</p>
+          <p><strong>You click:</strong> Capture Timing at 0.5 seconds</p>
+          <p><strong>Result:</strong> { time: 0.5, text: 'Twinkle, twinkle, little star' }</p>
+        </div>
+      </div>
+      
+      <div class="step">
+        <h3><span class="step-number">6</span> Continue for All Lyrics</h3>
+        <p>Repeat the process for each lyric line:</p>
+        <ul>
+          <li>Listen for the next lyric</li>
+          <li>Type the lyric text</li>
+          <li>Click "Capture Timing"</li>
+          <li>Move to the next lyric</li>
+        </ul>
+        
+        <div class="tip-box">
+          <h4>💡 Pro Tip: Pausing</h4>
+          <p>You can PAUSE the audio between lyrics if you need time to think about what to type next!</p>
+        </div>
+      </div>
+      
+      <div class="step">
+        <h3><span class="step-number">7</span> Review Your Timings</h3>
+        <p>Below the audio player, you'll see a list of all captured timings:</p>
+        <ul>
+          <li>✅ Each showing the time and lyric text</li>
+          <li>🗑️ Delete button if you made a mistake</li>
+          <li>See the list update in real-time</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3><span class="step-number">8</span> Copy the Generated Code</h3>
+        <p>At the bottom, you'll see the <strong>"📋 Generated Code"</strong> section:</p>
+        <ul>
+          <li>Shows your code in a dark box</li>
+          <li>Click <strong>"📋 Copy to Clipboard"</strong></li>
+          <li>Code is now ready to paste</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3><span class="step-number">9</span> Update Your Database</h3>
+        <p>Open <code>nursery-rhymes-data.js</code> in your text editor:</p>
+        <ul>
+          <li>Find the <code>nurseryRhymes</code> object</li>
+          <li>Paste your code inside (after the opening brace)</li>
+          <li>Add a comma if there's code after it</li>
+          <li>Save the file</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3><span class="step-number">10</span> Test It!</h3>
+        <p>Open <code>audio-controls.html</code> in your browser:</p>
+        <ul>
+          <li>You should see your new rhyme button</li>
+          <li>Click it to play the audio</li>
+          <li>Watch the lyrics appear at the bottom! 🎉</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Download Audio Tab -->
+    <div id="download" class="tab-content">
+      <h2 style="color: #333; margin-bottom: 30px;">Where to Get Free Audio Files</h2>
+      
+      <p style="margin-bottom: 30px; color: #666; font-size: 16px;">
+        Here are the best websites to download free nursery rhyme audio files:
+      </p>
+      
+      <div class="download-guide">
+        <div class="guide-card">
+          <h4>🎨 Pixabay Music</h4>
+          <p>No-copyright music perfect for projects. High quality and legally safe to use.</p>
+          <a href="https://pixabay.com/music/search/twinkle%20twinkle%20little%20star/" target="_blank">Visit Pixabay</a>
+        </div>
+        
+        <div class="guide-card">
+          <h4>🏛️ Internet Archive</h4>
+          <p>Digitized cassettes with complete nursery rhyme collections. Free downloads available.</p>
+          <a href="https://archive.org/details/thebestnurseryrhymes1" target="_blank">Visit Archive</a>
+        </div>
+        
+        <div class="guide-card">
+          <h4>🎵 Freesound.org</h4>
+          <p>Community-uploaded audio. Search for "nursery rhyme" or specific songs.</p>
+          <a href="https://freesound.org/" target="_blank">Visit Freesound</a>
+        </div>
+        
+        <div class="guide-card">
+          <h4>🎤 Singing Bell</h4>
+          <p>Dedicated nursery rhyme site with free MP3 downloads and lyrics.</p>
+          <a href="https://www.singing-bell.com/twinkle-twinkle-little-star/" target="_blank">Visit Singing Bell</a>
+        </div>
+      </div>
+      
+      <h3 style="color: #333; margin-top: 40px; margin-bottom: 20px;">📥 Download Steps:</h3>
+      
+      <div class="checklist">
+        <div class="checklist-item" onclick="toggleCheckbox(this)">
+          <div class="checkbox">✓</div>
+          <p>Go to one of the websites above</p>
+        </div>
+        <div class="checklist-item" onclick="toggleCheckbox(this)">
+          <div class="checkbox">✓</div>
+          <p>Search for your nursery rhyme (e.g., "Twinkle Twinkle")</p>
+        </div>
+        <div class="checklist-item" onclick="toggleCheckbox(this)">
+          <div class="checkbox">✓</div>
+          <p>Find a version you like (listen to preview if available)</p>
+        </div>
+        <div class="checklist-item" onclick="toggleCheckbox(this)">
+          <div class="checkbox">✓</div>
+          <p>Click the download button (usually a down arrow icon)</p>
+        </div>
+        <div class="checklist-item" onclick="toggleCheckbox(this)">
+          <div class="checkbox">✓</div>
+          <p>Save the file to your computer</p>
+        </div>
+        <div class="checklist-item" onclick="toggleCheckbox(this)">
+          <div class="checkbox">✓</div>
+          <p>Make sure it's an MP3 file (.mp3 extension)</p>
+        </div>
+      </div>
+      
+      <h3 style="color: #333; margin-top: 40px; margin-bottom: 20px;">🎯 Recommended Rhymes to Start With:</h3>
+      
+      <table class="comparison-table">
+        <tr>
+          <th>Rhyme</th>
+          <th>Length</th>
+          <th>Difficulty</th>
+          <th>Why Great for Beginners</th>
+        </tr>
+        <tr>
+          <td><strong>Twinkle Twinkle</strong></td>
+          <td>~30-40 sec</td>
+          <td>⭐ Easy</td>
+          <td>Short, simple lyrics, consistent pacing</td>
+        </tr>
+        <tr>
+          <td><strong>Baa Baa Black Sheep</strong></td>
+          <td>~20-25 sec</td>
+          <td>⭐ Easy</td>
+          <td>Very short, perfect for first attempt</td>
+        </tr>
+        <tr>
+          <td><strong>Mary Had a Lamb</strong></td>
+          <td>~40-50 sec</td>
+          <td>⭐⭐ Medium</td>
+          <td>More lyrics, good practice</td>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- Example Tab -->
+    <div id="example" class="tab-content">
+      <h2 style="color: #333; margin-bottom: 30px;">Live Example: Twinkle Twinkle Little Star</h2>
+      
+      <p style="color: #666; margin-bottom: 30px;">
+        Here's exactly how the process works for "Twinkle Twinkle Little Star":
+      </p>
+      
+      <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">Your Audio Timeline:</h3>
+      
+      <div class="screenshot">
+        0:00 ─ 0:50 Twinkle, twinkle, little star
+        0:50 ─ 1:40 How I wonder what you are
+        1:40 ─ 2:30 Up above the world so high
+        2:30 ─ 3:20 Like a diamond in the sky
+        3:20 ─ 4:10 Twinkle, twinkle, little star
+        4:10 ─ 5:00 How I wonder what you are
+      </div>
+      
+      <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">What You'll Do:</h3>
+      
+      <div class="example-box">
+        <h4>Step 1: Audio starts, first lyric at 0:50 seconds</h4>
+        <p><strong>You hear:</strong> "Twinkle, twinkle, little star"</p>
+        <p><strong>You type:</strong> Twinkle, twinkle, little star</p>
+        <p><strong>You click:</strong> Capture Timing</p>
+        <p><strong>Captured:</strong> { time: 0.5, text: 'Twinkle, twinkle, little star' }</p>
+      </div>
+      
+      <div class="example-box">
+        <h4>Step 2: Next lyric at 1:40 seconds</h4>
+        <p><strong>You hear:</strong> "How I wonder what you are"</p>
+        <p><strong>You type:</strong> How I wonder what you are</p>
+        <p><strong>You click:</strong> Capture Timing</p>
+        <p><strong>Captured:</strong> { time: 1.4, text: 'How I wonder what you are' }</p>
+      </div>
+      
+      <div class="example-box">
+        <h4>Step 3: Continue for all lyrics...</h4>
+        <p>Keep going until you've captured all the main lyrics in the song!</p>
+      </div>
+      
+      <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">Generated Code Output:</h3>
+      
+      <div class="screenshot">
+twinkle: {
+  name: 'Twinkle Twinkle Little Star',
+  audioUrl: '/audio/nursery-rhymes/twinkle.mp3',
+  lyrics: [
+    { time: 0.5, text: 'Twinkle, twinkle, little star' },
+    { time: 1.4, text: 'How I wonder what you are' },
+    { time: 2.3, text: 'Up above the world so high' },
+    { time: 3.2, text: 'Like a diamond in the sky' },
+    { time: 4.1, text: 'Twinkle, twinkle, little star' },
+    { time: 5.0, text: 'How I wonder what you are' }
+  ]
+}
+      </div>
+      
+      <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">Where to Paste:</h3>
+      
+      <p style="color: #333; margin-bottom: 15px;">Open <code>nursery-rhymes-data.js</code> and add it to the <code>nurseryRhymes</code> object:</p>
+      
+      <div class="screenshot">
+const nurseryRhymes = {
+  twinkle: {
+    name: 'Twinkle Twinkle Little Star',
+    audioUrl: '/audio/nursery-rhymes/twinkle.mp3',
+    lyrics: [
+      { time: 0.5, text: 'Twinkle, twinkle, little star' },
+      { time: 1.4, text: 'How I wonder what you are' },
+      { time: 2.3, text: 'Up above the world so high' },
+      { time: 3.2, text: 'Like a diamond in the sky' },
+      { time: 4.1, text: 'Twinkle, twinkle, little star' },
+      { time: 5.0, text: 'How I wonder what you are' }
+    ]
+  },
+  
+  mary: {
+    // ... rest of your rhymes
+  }
+};
+      </div>
+      
+      <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">Result in Your App:</h3>
+      
+      <p style="color: #333;">When you click the "Twinkle Twinkle" button:</p>
+      <ul style="color: #333; margin-left: 20px;">
+        <li>✅ Audio plays</li>
+        <li>✅ At 0.5 sec: "Twinkle, twinkle, little star" appears at bottom</li>
+        <li>✅ At 1.4 sec: Text changes to "How I wonder what you are"</li>
+        <li>✅ And so on... perfectly synced! 🎉</li>
+      </ul>
+    </div>
+    
+    <!-- Tips & Tricks Tab -->
+    <div id="tips" class="tab-content">
+      <h2 style="color: #333; margin-bottom: 30px;">💡 Tips & Tricks</h2>
+      
+      <div class="step">
+        <h3>🎯 Capturing Accuracy</h3>
+        <p><strong>Pro Tip:</strong> Click "Capture Timing" at the VERY START of when the lyric begins, not in the middle.</p>
+        <div class="example-box">
+          <h4>✅ Good:</h4>
+          <p>Audio: "Twinkle..." (click at first "T")</p>
+        </div>
+        <div class="warning-box">
+          <h4>❌ Avoid:</h4>
+          <p>Audio: "Twinkle..." (click at the "le" part)</p>
+        </div>
+      </div>
+      
+      <div class="step">
+        <h3>⌨️ Keyboard Shortcut</h3>
+        <p>Instead of clicking the button every time, just <strong>press ENTER</strong> after typing a lyric!</p>
+        <div class="example-box">
+          <h4>Faster Workflow:</h4>
+          <ul>
+            <li>Type lyric → Press ENTER</li>
+            <li>Type next lyric → Press ENTER</li>
+            <li>Much faster than clicking! ⚡</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="step">
+        <h3>⏸️ Pause the Audio</h3>
+        <p>You don't have to type everything in real-time!</p>
+        <ul>
+          <li>Click PAUSE on the audio player</li>
+          <li>Type the lyric you just heard</li>
+          <li>Click Capture Timing</li>
+          <li>Press PLAY again</li>
+          <li>Listen for the next lyric</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3>🗑️ Making Mistakes</h3>
+        <p>If you mess up a timing:</p>
+        <ul>
+          <li><strong>Individual fix:</strong> Click the "Delete" button next to the wrong timing</li>
+          <li><strong>Start over:</strong> Click "🗑 Clear All" to remove everything</li>
+          <li><strong>Manual edit:</strong> After copying, edit the code directly in nursery-rhymes-data.js</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3>⏱️ Time Format</h3>
+        <p>The calibrator automatically formats time to 1 decimal place:</p>
+        <div class="example-box">
+          <h4>Examples:</h4>
+          <ul>
+            <li>0.5 seconds = half a second</li>
+            <li>2.3 seconds = two and three-tenths seconds</li>
+            <li>15.0 seconds = exactly 15 seconds</li>
+          </ul>
+        </div>
+        <p style="margin-top: 15px;"><strong>This is perfect accuracy for most songs!</strong></p>
+      </div>
+      
+      <div class="step">
+        <h3>🎵 Lyric Length</h3>
+        <p>When capturing lyrics, consider:</p>
+        <ul>
+          <li><strong>Short versions:</strong> Just the key phrase</li>
+          <li><strong>Full versions:</strong> Complete sentence or line</li>
+        </ul>
+        <div class="example-box">
+          <h4>Option 1 (Short - More timings needed):</h4>
+          <p>{ time: 0, text: 'Twinkle' }</p>
+          <p>{ time: 0.5, text: 'twinkle' }</p>
+        </div>
+        <div class="example-box">
+          <h4>Option 2 (Full - Simpler, fewer timings):</h4>
+          <p>{ time: 0, text: 'Twinkle, twinkle, little star' }</p>
+        </div>
+        <p style="margin-top: 15px;"><strong>Recommendation:</strong> Use Option 2 for nursery rhymes (simpler!)</p>
+      </div>
+      
+      <div class="step">
+        <h3>✏️ Manual Editing</h3>
+        <p>You can edit the code after copying if needed:</p>
+        <ul>
+          <li>Fix typos in lyric text</li>
+          <li>Adjust timing by 0.1 or 0.2 seconds</li>
+          <li>Reorder lyrics if captured out of order</li>
+        </ul>
+        <div class="warning-box">
+          <h4>⚠️ Important:</h4>
+          <p>Make sure to keep the format correct:</p>
+          <p style="font-family: monospace; margin-top: 10px;">{ time: NUMBER, text: 'TEXT' }</p>
+          <p style="margin-top: 10px;">Include the comma between items (except the last one)</p>
+        </div>
+      </div>
+      
+      <div class="step">
+        <h3>🔊 Audio Quality</h3>
+        <p>For best results:</p>
+        <ul>
+          <li>✅ Use clear, easy-to-hear audio</li>
+          <li>✅ MP3 format works best</li>
+          <li>✅ At least 128 kbps bitrate</li>
+          <li>❌ Avoid very distorted or muffled audio</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3>📁 File Organization</h3>
+        <p>Keep your files organized:</p>
+        <div class="screenshot">
+your-project/
+├── audio-manager.js
+├── audio-controls.html
+├── nursery-rhymes-data.js
+├── timing-calibrator.html ← Use this tool
+└── public/
+    └── audio/
+        └── nursery-rhymes/
+            ├── twinkle.mp3 ← Download here
+            ├── mary.mp3
+            └── baa.mp3
+        </div>
+      </div>
+      
+      <div class="step">
+        <h3>🧪 Testing Your Work</h3>
+        <p>After adding your rhyme to nursery-rhymes-data.js:</p>
+        <ul>
+          <li>Open audio-controls.html in your browser</li>
+          <li>Click your new rhyme button</li>
+          <li>Watch the lyrics appear at the bottom</li>
+          <li>Check if timing matches the audio</li>
+          <li>If timing is off, delete and try again or edit manually</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showTab(event, tabName) {
+      // Hide all tabs
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      
+      // Remove active class from all buttons
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      
+      // Show selected tab
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+    
+    function toggleCheckbox(element) {
+      const checkbox = element.querySelector('.checkbox');
+      checkbox.classList.toggle('checked');
+      checkbox.textContent = checkbox.classList.contains('checked') ? '✓' : '';
+    }
+  </script>
+</body>
+</html>

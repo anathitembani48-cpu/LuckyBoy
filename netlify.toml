@@ -5,3 +5,9 @@
 [build]
   command = "vite build"
   publish = "dist/client
+[[plugins]]
+package = "netlify-plugin-cloudinary"
+
+  [plugins.inputs]
+  cloudName = "your-cloud-name"
+  imagesPath = "/your/actual/

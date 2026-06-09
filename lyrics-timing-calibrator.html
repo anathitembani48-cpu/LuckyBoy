@@ -1,0 +1,427 @@
+<!-- Lyrics Timing Calibration Tool -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyrics Timing Calibrator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    label {
+      font-weight: bold;
+      color: #333;
+      font-size: 14px;
+    }
+    
+    input[type="file"],
+    input[type="text"],
+    textarea {
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: monospace;
+    }
+    
+    input[type="file"]:focus,
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    textarea {
+      resize: vertical;
+      min-height: 150px;
+    }
+    
+    .audio-player {
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    
+    audio {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    
+    .time-display {
+      font-size: 24px;
+      font-weight: bold;
+      color: #667eea;
+      text-align: center;
+      margin-bottom: 15px;
+      font-family: monospace;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-capture {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .btn-capture:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+    }
+    
+    .btn-capture:active {
+      background-color: #3d8b40;
+    }
+    
+    .btn-copy {
+      background-color: #2196F3;
+      color: white;
+    }
+    
+    .btn-copy:hover {
+      background-color: #0b7dda;
+      transform: translateY(-2px);
+    }
+    
+    .btn-clear {
+      background-color: #f44336;
+      color: white;
+    }
+    
+    .btn-clear:hover {
+      background-color: #da190b;
+      transform: translateY(-2px);
+    }
+    
+    .timings-list {
+      background: #f9f9f9;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .timing-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border-left: 4px solid #667eea;
+    }
+    
+    .timing-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .timing-time {
+      font-family: monospace;
+      font-weight: bold;
+      color: #667eea;
+      min-width: 70px;
+    }
+    
+    .timing-text {
+      flex: 1;
+      margin: 0 15px;
+      color: #333;
+    }
+    
+    .btn-delete {
+      background-color: #ff6b6b;
+      color: white;
+      padding: 6px 12px;
+      font-size: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .btn-delete:hover {
+      background-color: #ff5252;
+    }
+    
+    .output-section {
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+    }
+    
+    .output-section h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+    
+    .output-code {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    
+    .copy-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    
+    .copy-btn:hover {
+      background-color: #45a049;
+    }
+    
+    .info-box {
+      background: #e3f2fd;
+      border-left: 4px solid #2196F3;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      color: #1565c0;
+    }
+    
+    .empty-state {
+      text-align: center;
+      color: #999;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎵 Lyrics Timing Calibrator</h1>
+    <p class="subtitle">Sync your nursery rhyme lyrics to your audio file</p>
+    
+    <div class="info-box">
+      <strong>How to use:</strong> Upload an audio file, enter your lyrics, play the audio, and click "Capture Timing" when each lyric should appear. The tool will generate the timing data for your nursery rhyme!
+    </div>
+    
+    <div class="controls">
+      <div class="control-group">
+        <label for="audioFile">📁 Upload Audio File:</label>
+        <input type="file" id="audioFile" accept="audio/*">
+      </div>
+      
+      <div class="control-group">
+        <label for="rhymeName">🎶 Rhyme Name:</label>
+        <input type="text" id="rhymeName" placeholder="e.g., Twinkle Twinkle Little Star">
+      </div>
+    </div>
+    
+    <div class="audio-player">
+      <audio id="audioPlayer" controls></audio>
+      <div class="time-display" id="timeDisplay">00:00.0</div>
+      <div class="control-group" style="margin-bottom: 0;">
+        <label for="currentLyric">Enter the lyric to capture:</label>
+        <input type="text" id="currentLyric" placeholder="e.g., Twinkle, twinkle, little star">
+      </div>
+      <div class="button-group" style="margin-top: 15px;">
+        <button class="btn-capture" onclick="captureTime()">⏱ Capture Timing</button>
+        <button class="btn-clear" onclick="clearAll()">🗑 Clear All</button>
+      </div>
+    </div>
+    
+    <div class="timings-list">
+      <div id="timingsList" class="empty-state">No timings captured yet. Play the audio and click "Capture Timing" at each lyric!</div>
+    </div>
+    
+    <div class="output-section">
+      <h3>📋 Generated Code:</h3>
+      <div class="output-code" id="outputCode">
+        // Timings will appear here after you capture them
+      </div>
+      <button class="copy-btn" onclick="copyOutput()">📋 Copy to Clipboard</button>
+    </div>
+  </div>
+  
+  <script>
+    let timings = [];
+    
+    const audioFile = document.getElementById('audioFile');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const currentLyricInput = document.getElementById('currentLyric');
+    const timingsList = document.getElementById('timingsList');
+    const outputCode = document.getElementById('outputCode');
+    const rhymeName = document.getElementById('rhymeName');
+    
+    // Update time display as audio plays
+    audioPlayer.addEventListener('timeupdate', () => {
+      const minutes = Math.floor(audioPlayer.currentTime / 60);
+      const seconds = audioPlayer.currentTime % 60;
+      timeDisplay.textContent = 
+        `${String(minutes).padStart(2, '0')}:${String(seconds.toFixed(1)).padStart(4, '0')}`;
+    });
+    
+    // Load audio file
+    audioFile.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        audioPlayer.src = url;
+      }
+    });
+    
+    // Capture timing
+    function captureTime() {
+      const lyric = currentLyricInput.value.trim();
+      
+      if (!lyric) {
+        alert('Please enter a lyric');
+        return;
+      }
+      
+      const time = audioPlayer.currentTime;
+      timings.push({ time: parseFloat(time.toFixed(2)), text: lyric });
+      
+      currentLyricInput.value = '';
+      renderTimings();
+      updateOutput();
+    }
+    
+    // Render timings list
+    function renderTimings() {
+      if (timings.length === 0) {
+        timingsList.innerHTML = '<div class="empty-state">No timings captured yet</div>';
+        return;
+      }
+      
+      timingsList.innerHTML = timings.map((item, index) => `
+        <div class="timing-item">
+          <span class="timing-time">${item.time.toFixed(2)}s</span>
+          <span class="timing-text">${item.text}</span>
+          <button class="btn-delete" onclick="deleteiming(${index})">Delete</button>
+        </div>
+      `).join('');
+    }
+    
+    // Delete timing
+    function deleteiming(index) {
+      timings.splice(index, 1);
+      renderTimings();
+      updateOutput();
+    }
+    
+    // Clear all
+    function clearAll() {
+      if (confirm('Clear all timings?')) {
+        timings = [];
+        renderTimings();
+        updateOutput();
+      }
+    }
+    
+    // Generate output code
+    function updateOutput() {
+      const name = rhymeName.value.trim() || 'My Rhyme';
+      const key = name.toLowerCase().replace(/\s+/g, '').substring(0, 15);
+      
+      const lyricsArray = timings.map(t => 
+        `      { time: ${t.time}, text: '${t.text}' }`
+      ).join(',\n');
+      
+      const code = `${key}: {
+  name: '${name}',
+  audioUrl: '/audio/nursery-rhymes/${key}.mp3',
+  lyrics: [
+${lyricsArray}
+  ]
+}`;
+      
+      outputCode.textContent = code;
+    }
+    
+    // Copy to clipboard
+    function copyOutput() {
+      const text = outputCode.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copied to clipboard!');
+      }).catch(() => {
+        alert('Failed to copy. Please copy manually.');
+      });
+    }
+    
+    // Allow Enter key to capture timing
+    currentLyricInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        captureTime();
+      }
+    });
+  </script>
+</body>
+</html>

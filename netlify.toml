@@ -2,3 +2,6 @@
   base = "Lucky Learning"
   publish = "dist/client"
   command = "npm install && npm run build"
+[build]
+  command = "vite build"
+  publish = "dist/client
